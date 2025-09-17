@@ -45,7 +45,8 @@ func (d *DB) queryMessageWithKeys(key string) ([]*messageModelSimple, error) {
 		SELECT message_id, message_seq, client_msg_no, from_uid, channel_id, channel_type, timestamp, payload  as content  FROM message3 WHERE payload LIKE ?
 		UNION 
 		SELECT message_id, message_seq, client_msg_no, from_uid, channel_id, channel_type, timestamp, payload  as content FROM message4 WHERE payload LIKE ? 
-		limit 50 `
+		ORDER BY timestamp DESC
+		LIMIT 50`
 
 	// 执行查询
 	rows, err := d.session.Query(query, "%"+key+"%", "%"+key+"%", "%"+key+"%", "%"+key+"%", "%"+key+"%")
